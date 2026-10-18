@@ -1,0 +1,9 @@
+api_key.md
+__pycache__/
+*.pyc
+results/
+reference/
+screening_report.json
+history.md
+ideas.md
+PROJECT_STATUS.md

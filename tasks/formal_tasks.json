@@ -1,0 +1,125 @@
+[
+  {
+    "id": "z3_abs",
+    "name": "Integer absolute value expression",
+    "verifier": "z3",
+    "spec": "abs",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that computes the absolute value of x for every integer. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and If(condition, then_value, else_value). Do not use division, functions other than If, prose, or Markdown."
+  },
+  {
+    "id": "z3_relu",
+    "name": "Integer ReLU expression",
+    "verifier": "z3",
+    "spec": "relu",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that computes max(x, 0) for every integer. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and If(condition, then_value, else_value). Do not use division, functions other than If, prose, or Markdown."
+  },
+  {
+    "id": "z3_max3",
+    "name": "Maximum of x, 2x, and 6",
+    "verifier": "z3",
+    "spec": "max3",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that computes the largest of x, 2*x, and 6 for every integer. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and nested If(condition, then_value, else_value). Do not use division, other functions, prose, or Markdown."
+  },
+  {
+    "id": "z3_sign",
+    "name": "Integer sign function",
+    "verifier": "z3",
+    "spec": "sign",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that returns -1 when x is negative, 0 when x is zero, and 1 when x is positive. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and nested If(condition, then_value, else_value). Do not use division, other functions, prose, or Markdown."
+  },
+  {
+    "id": "z3_clamp",
+    "name": "Clamp an integer into [0, 10]",
+    "verifier": "z3",
+    "spec": "clamp_0_10",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that returns 0 when x < 0, returns 10 when x > 10, and returns x otherwise. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and nested If(condition, then_value, else_value). Do not use division, other functions, prose, or Markdown."
+  },
+  {
+    "id": "z3_square",
+    "name": "Integer square",
+    "verifier": "z3",
+    "spec": "square",
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x whose value is x squared for every integer. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and If(condition, then_value, else_value). Do not use division, exponentiation, other functions, prose, or Markdown."
+  },
+  {
+    "id": "z3_abs_properties",
+    "name": "Absolute value checked property by property",
+    "verifier": "z3",
+    "specs": ["abs", "nonneg", "ge_x", "magnitude_x"],
+    "timeout_seconds": 30,
+    "output_format": "z3_expression",
+    "prompt": "Return exactly one expression in integer variable x that computes the absolute value of x. It must satisfy all of these properties for every integer x: the result is non-negative, the result is at least x, and the result equals x or -x. Allowed syntax: integer literals, x, +, -, *, parentheses, comparisons, and If(condition, then_value, else_value). Do not use division, functions other than If, prose, or Markdown."
+  },
+  {
+    "id": "dafny_abs_body",
+    "name": "Dafny absolute value method body",
+    "verifier": "dafny",
+    "template_path": "tasks/dafny/abs_method.dfy",
+    "output_format": "dafny_body",
+    "audit": true,
+    "timeout_seconds": 120,
+    "prompt": "Return only the Dafny statements for the body of method Abs. The fixed method receives x:int, returns y:int, and requires y >= 0 and (y == x || y == -x). Do not return method declarations, braces, Markdown, assume, axioms, externs, or explanations."
+  },
+  {
+    "id": "dafny_factorial_proof",
+    "name": "Dafny proof that factorial is positive",
+    "verifier": "dafny",
+    "template_path": "tasks/dafny/factorial_positive.dfy",
+    "output_format": "dafny_body",
+    "audit": true,
+    "timeout_seconds": 120,
+    "prompt": "Return only the Dafny statements for the body of lemma FactorialPositive(n:nat), whose fixed postcondition is Factorial(n) > 0. Factorial is already defined. Do not return the lemma declaration, braces, Markdown, assume, axioms, externs, or explanations."
+  },
+  {
+    "id": "dafny_sketch_nonnegative",
+    "name": "Dafny two-hole proof sketch",
+    "verifier": "dafny_sketch",
+    "template_path": "tasks/dafny/sketch_nonnegative.dfy",
+    "output_format": "dafny_sketch",
+    "allowed_holes": ["Main", "A", "B"],
+    "required_declarations": ["lemma MainProof(n: nat)", "lemma HelperA(n: nat)", "lemma HelperB(n: nat)"],
+    "min_holes": 3,
+    "max_holes": 3,
+    "max_hole_depth": 1,
+    "max_sketch_rounds": 3,
+    "max_hole_rounds": 3,
+    "max_calls": 12,
+    "total_timeout_seconds": 600,
+    "timeout_seconds": 120,
+    "audit": true,
+    "prompt": "Produce a main lemma MainProof and two helper lemmas HelperA and HelperB, each taking n:nat and ensuring n >= 0. The fixed RequiredGoal calls MainProof. MainProof should call both helpers. Return only the Dafny lemma declarations and bodies, using exactly HOLE_Main, HOLE_A and HOLE_B for the proof bodies."
+  },
+  {
+    "id": "dafny_sketch_sum_formula",
+    "name": "Dafny nested proof sketch for a summation identity",
+    "verifier": "dafny_sketch",
+    "template_path": "tasks/dafny/sketch_sum_formula.dfy",
+    "output_format": "dafny_sketch",
+    "allowed_holes": ["Main"],
+    "required_declarations": ["lemma MainProof(n: nat)"],
+    "min_holes": 1,
+    "max_holes": 1,
+    "max_hole_depth": 3,
+    "max_child_holes": 4,
+    "max_total_holes": 12,
+    "max_sketch_rounds": 3,
+    "max_hole_rounds": 3,
+    "max_calls": 16,
+    "total_timeout_seconds": 900,
+    "timeout_seconds": 120,
+    "audit": true,
+    "prompt": "Sum(n) is fixed as Sum(0) == 0 and Sum(n) == n + Sum(n - 1). Prove lemma MainProof(n: nat) ensures Sum(n) * 2 == n * (n + 1). The fixed RequiredGoal calls MainProof. Start by returning only the declaration of MainProof with HOLE_Main as its proof body. When you later fill a hole you may either give its complete proof body or decompose it: write the proof body first, then declare the helper lemmas it calls below it, using HOLE_<parent>_<suffix> for each new proof body."
+  }
+]
